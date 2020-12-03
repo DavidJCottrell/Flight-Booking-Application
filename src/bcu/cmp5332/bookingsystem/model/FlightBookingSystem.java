@@ -19,6 +19,11 @@ public class FlightBookingSystem {
         List<Flight> out = new ArrayList<>(flights.values());
         return Collections.unmodifiableList(out);
     }
+    
+    public List<Customer> getCustomers() {
+        List<Customer> out = new ArrayList<>(customers.values());
+        return Collections.unmodifiableList(out);
+    }
 
     public Flight getFlightByID(int id) throws FlightBookingSystemException {
         if (!flights.containsKey(id)) {
@@ -47,6 +52,6 @@ public class FlightBookingSystem {
     }
 
     public void addCustomer(Customer customer) {
-        // TODO: implementation here
+       customers.put(customer.getId(), customer);
     }
 }
