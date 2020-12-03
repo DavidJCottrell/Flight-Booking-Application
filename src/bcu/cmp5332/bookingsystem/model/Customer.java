@@ -1,6 +1,5 @@
 package bcu.cmp5332.bookingsystem.model;
 
-import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +24,16 @@ public class Customer {
     public void setName(String name) { this.name = name; }
     public void setPhone(String phone) { this.phone = phone; }
     
-    public void getDetails() {
-    	System.out.println("ID - " + this.id + " Name: " + this.name + " Phone " + this.phone);
+    public String getDetailsShort() {
+    	return "Customer ID - " + this.id + " Name - " + this.name + " Phone - " + this.phone;
+    }
+    
+    public String getDetailsLong() {
+        return "Customer #" + id + "\n" 
+        		+ "Name: " + name + "\n"
+        		+ "Phone: " + phone + "\n"
+                + "---------------------------" + "\n"
+                + "Bookings:\n";
     }
     
     public void addBooking(Booking booking) {

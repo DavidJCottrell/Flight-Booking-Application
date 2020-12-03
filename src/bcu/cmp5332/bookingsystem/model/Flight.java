@@ -79,8 +79,14 @@ public class Flight {
     }
 
     public String getDetailsLong() {
-        // TODO: implementation here
-        return null;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
+        return "Flight #" + id + "\n" 
+        		+ "Flight No: " + flightNumber + "\n"
+        		+ "Origin: " + origin + "\n"
+        		+ "Destination: " + destination + "\n" 
+                + "Departure Date: " + departureDate.format(dtf) + "\n"
+                + "---------------------------" + "\n"
+                + "Passengers:\n";
     }
     
     public void addPassenger(Customer passenger) {

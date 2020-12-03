@@ -1,11 +1,15 @@
 package bcu.cmp5332.bookingsystem.main;
 
 import bcu.cmp5332.bookingsystem.commands.LoadGUI;
+import bcu.cmp5332.bookingsystem.commands.ShowCustomer;
+import bcu.cmp5332.bookingsystem.commands.ShowFlight;
 import bcu.cmp5332.bookingsystem.commands.ListFlights;
 import bcu.cmp5332.bookingsystem.commands.AddCustomer;
 import bcu.cmp5332.bookingsystem.commands.AddFlight;
 import bcu.cmp5332.bookingsystem.commands.Command;
 import bcu.cmp5332.bookingsystem.commands.Help;
+import bcu.cmp5332.bookingsystem.commands.ListCustomers;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,7 +36,7 @@ public class CommandParser {
 				return new AddFlight(flighNumber, origin, destination, departureDate);
 			} else if (cmd.equals("addcustomer")) {
 				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-				System.out.print("Name: ");
+				System.out.print("Full name: ");
 				String name = br.readLine();
 				System.out.print("Phone Number: ");
 				String phone = br.readLine();
@@ -44,17 +48,17 @@ public class CommandParser {
 				if (line.equals("listflights")) {
 					return new ListFlights();
 				} else if (line.equals("listcustomers")) {
-
+					return new ListCustomers();
 				} else if (line.equals("help")) {
 					return new Help();
 				}
 			} else if (parts.length == 2) {
 				int id = Integer.parseInt(parts[1]);
 
-				if (cmd.equals("showflight")) {
-
+				if (cmd.equals("showflight")) {					
+					return new ShowFlight(id);
 				} else if (cmd.equals("showcustomer")) {
-
+					return new ShowCustomer(id);
 				}
 			} else if (parts.length == 3) {
 				int patronID = Integer.parseInt(parts[1]);
