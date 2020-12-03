@@ -2,6 +2,7 @@ package bcu.cmp5332.bookingsystem.main;
 
 import bcu.cmp5332.bookingsystem.commands.LoadGUI;
 import bcu.cmp5332.bookingsystem.commands.ListFlights;
+import bcu.cmp5332.bookingsystem.commands.AddCustomer;
 import bcu.cmp5332.bookingsystem.commands.AddFlight;
 import bcu.cmp5332.bookingsystem.commands.Command;
 import bcu.cmp5332.bookingsystem.commands.Help;
@@ -30,7 +31,13 @@ public class CommandParser {
 				LocalDate departureDate = parseDateWithAttempts(br);
 				return new AddFlight(flighNumber, origin, destination, departureDate);
 			} else if (cmd.equals("addcustomer")) {
-
+				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+				System.out.print("Name: ");
+				String name = br.readLine();
+				System.out.print("Phone Number: ");
+				String phone = br.readLine();
+				
+				return new AddCustomer(name, phone);
 			} else if (cmd.equals("loadgui")) {
 				return new LoadGUI();
 			} else if (parts.length == 1) {

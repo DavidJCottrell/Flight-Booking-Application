@@ -51,7 +51,10 @@ public class FlightBookingSystem {
         flights.put(flight.getId(), flight);
     }
 
-    public void addCustomer(Customer customer) {
-       customers.put(customer.getId(), customer);
+    public void addCustomer(Customer customer) {	
+    	if (customers.containsKey(customer.getId())) {
+            throw new IllegalArgumentException("Duplicate customer ID.");
+        }
+    	customers.put(customer.getId(), customer);
     }
 }
