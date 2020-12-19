@@ -8,7 +8,7 @@ public class Customer {
     private int id;
     private String name;
     private String phone;
-    private final List<Booking> bookings = new ArrayList<>();
+    private List<Booking> bookings = new ArrayList<>();
     
     public Customer(int id, String name, String phone){
     	this.id = id;
@@ -29,14 +29,47 @@ public class Customer {
     }
     
     public String getDetailsLong() {
-        return "Customer #" + id + "\n" 
+    	
+    	String infoStr = "Customer #" + id + "\n" 
         		+ "Name: " + name + "\n"
         		+ "Phone: " + phone + "\n"
                 + "---------------------------" + "\n"
                 + "Bookings:\n";
+    	
+    	for(Booking booking : this.bookings) {
+    		infoStr = infoStr.concat(
+	    		"* Booking date: " + booking.getBookingDate() 
+				+ " for Flight #" + booking.getFlight().getId()
+				+ " - " +  booking.getFlight().getFlightNumber()
+				+ " - " + booking.getFlight().getOrigin()
+				+ " to " + booking.getFlight().getDestination()
+				+ " on " + booking.getFlight().getDepartureDate()
+			);
+    	}
+    	
+    	if(bookings.size() == 0) infoStr = infoStr.concat("* No bookings.");
+    	
+    	
+        return infoStr;
     }
     
+    
+    
     public void addBooking(Booking booking) {
-        
+    	this.bookings.add(booking);
     }
+    
+    public void removeBooking(int id) {
+    	int i = 0;
+    	for(Booking booking : bookings) {
+    		if(booking.getCustomer().getId() == id) break;
+    		i++;
+    	}
+		this.bookings.remove(i);
+    }
+    
 }
+
+
+
+

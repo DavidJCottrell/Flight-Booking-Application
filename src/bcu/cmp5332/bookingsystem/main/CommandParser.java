@@ -4,8 +4,10 @@ import bcu.cmp5332.bookingsystem.commands.LoadGUI;
 import bcu.cmp5332.bookingsystem.commands.ShowCustomer;
 import bcu.cmp5332.bookingsystem.commands.ShowFlight;
 import bcu.cmp5332.bookingsystem.commands.ListFlights;
+import bcu.cmp5332.bookingsystem.commands.AddBooking;
 import bcu.cmp5332.bookingsystem.commands.AddCustomer;
 import bcu.cmp5332.bookingsystem.commands.AddFlight;
+import bcu.cmp5332.bookingsystem.commands.CancelBooking;
 import bcu.cmp5332.bookingsystem.commands.Command;
 import bcu.cmp5332.bookingsystem.commands.Help;
 import bcu.cmp5332.bookingsystem.commands.ListCustomers;
@@ -63,13 +65,14 @@ public class CommandParser {
 			} else if (parts.length == 3) {
 				int patronID = Integer.parseInt(parts[1]);
 				int bookID = Integer.parseInt(parts[2]);
-
 				if (cmd.equals("addbooking")) {
-
+					return new AddBooking(patronID, bookID);
 				} else if (cmd.equals("editbooking")) {
 
 				} else if (cmd.equals("cancelbooking")) {
-
+					int customerID = Integer.parseInt(parts[1]);
+					int flightID = Integer.parseInt(parts[2]);
+					return new CancelBooking(customerID, flightID);
 				}
 			}
 		} catch (NumberFormatException ex) {

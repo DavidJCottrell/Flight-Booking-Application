@@ -1,6 +1,5 @@
 package bcu.cmp5332.bookingsystem.model;
 
-import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class Flight {
     private String destination;
     private LocalDate departureDate;
 
-    private final Set<Customer> passengers;
+    private Set<Customer> passengers;
 
     public Flight(int id, String flightNumber, String origin, String destination, LocalDate departureDate) {
         this.id = id;
@@ -25,7 +24,11 @@ public class Flight {
         this.destination = destination;
         this.departureDate = departureDate;
         
-        passengers = new HashSet<>();
+        this.passengers = new HashSet<>();
+    }
+    
+    public void removePassenger(Customer customer) {
+    	this.passengers.remove(customer);
     }
 
     public int getId() {
@@ -80,16 +83,33 @@ public class Flight {
 
     public String getDetailsLong() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-        return "Flight #" + id + "\n" 
+        String infoStr = "Flight #" + id + "\n" 
         		+ "Flight No: " + flightNumber + "\n"
         		+ "Origin: " + origin + "\n"
         		+ "Destination: " + destination + "\n" 
                 + "Departure Date: " + departureDate.format(dtf) + "\n"
                 + "---------------------------" + "\n"
                 + "Passengers:\n";
+        
+    	
+    	if(passengers.size() == 0) {
+    		infoStr = infoStr.concat("* No passengers.");
+    	}else {
+        	for(Customer customer : this.passengers) {
+        		infoStr = infoStr.concat(
+    	    		"* Id: " + customer.getId() 
+    				+ " - " + customer.getName()
+    				+ " - " +  customer.getPhone() + "\n"
+    			);
+        	}
+    		infoStr = infoStr.concat(this.passengers.size() + " passenger(s)");
+    	}
+    	
+    	return infoStr;
+        
     }
     
     public void addPassenger(Customer passenger) {
-        
+        this.passengers.add(passenger);
     }
 }

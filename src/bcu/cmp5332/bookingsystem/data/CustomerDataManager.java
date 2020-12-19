@@ -3,7 +3,6 @@ package bcu.cmp5332.bookingsystem.data;
 import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
 import bcu.cmp5332.bookingsystem.model.FlightBookingSystem;
 import bcu.cmp5332.bookingsystem.model.Customer;
-import bcu.cmp5332.bookingsystem.model.Flight;
 
 import java.io.File;
 import java.io.FileWriter;

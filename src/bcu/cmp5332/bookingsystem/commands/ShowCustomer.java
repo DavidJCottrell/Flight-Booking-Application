@@ -14,7 +14,7 @@ public class ShowCustomer implements Command {
 	
 	@Override
 	public void execute(FlightBookingSystem flightBookingSystem) throws FlightBookingSystemException {
-		Customer customer = flightBookingSystem.getCustomerByID(this.id);
+		Customer customer = flightBookingSystem.getCustomerByID(this.id);		
 		System.out.println(customer.getDetailsLong());
 	}
 
