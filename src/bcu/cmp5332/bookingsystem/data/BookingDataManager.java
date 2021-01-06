@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+//BookingID::CustomerID::FlightID::BookingDate
+
 public class BookingDataManager implements DataManager {
     
     public final String RESOURCE = "./resources/data/bookings.txt";
@@ -50,12 +52,7 @@ public class BookingDataManager implements DataManager {
                 line_idx++;
             }
         }
-    	
-    	for(Booking booking : fbs.getBookings()) {
-    		System.out.println(booking.getId());
-    		System.out.println(booking.getCustomer().getDetailsShort());
-    	}
-    	
+    	    	
     }
 
     @Override
@@ -65,7 +62,7 @@ public class BookingDataManager implements DataManager {
                 out.print(booking.getId() + SEPARATOR);
                 out.print(booking.getCustomer().getId() + SEPARATOR);
                 out.print(booking.getFlight().getId() + SEPARATOR);
-                out.print(booking.getBookingDate());
+                out.print(booking.getBookingDate() + SEPARATOR);
                 out.println();
             }
         }

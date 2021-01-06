@@ -33,7 +33,6 @@ public class CancelBooking implements Command{
 		//Remove booking from system
 		flightBookingSystem.removeBooking(booking);
 		
-		
 		System.out.println("Booking has been successfully cancelled");
 		
 	}

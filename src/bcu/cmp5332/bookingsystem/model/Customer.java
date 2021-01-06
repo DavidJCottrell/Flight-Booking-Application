@@ -11,23 +11,26 @@ public class Customer {
     private String name;
     private String phone;
     private List<Booking> bookings = new ArrayList<>();
+    private String email;
     
-    public Customer(int id, String name, String phone){
+    public Customer(int id, String name, String phone, String email){
     	this.id = id;
     	this.name = name;
     	this.phone = phone;
+    	this.email = email;
     }
     
     public int getId() { return this.id; }
     public String getName() { return this.name; }
     public String getPhone() { return this.phone; }
+    public String getEmail() { return this.email; }
     
     public void setId(int id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setPhone(String phone) { this.phone = phone; }
     
     public String getDetailsShort() {
-    	return "Customer ID - " + this.id + " Name - " + this.name + " Phone - " + this.phone;
+    	return "* Customer ID - " + this.id + " Name - " + this.name + " Phone - " + this.phone + " Email - " + this.email;
     }
     
     public Booking getBookingByFlight(Flight flight) throws FlightBookingSystemException {
@@ -42,6 +45,7 @@ public class Customer {
     	String infoStr = "Customer #" + id + "\n" 
         		+ "Name: " + name + "\n"
         		+ "Phone: " + phone + "\n"
+        		+ "Email: " + email + "\n"
                 + "---------------------------" + "\n"
                 + "Bookings:\n";
     	

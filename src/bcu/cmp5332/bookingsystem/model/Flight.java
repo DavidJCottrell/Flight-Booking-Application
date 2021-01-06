@@ -14,15 +14,19 @@ public class Flight {
     private String origin;
     private String destination;
     private LocalDate departureDate;
+    private int capacity;
+    private double price;
 
     private Set<Customer> passengers;
 
-    public Flight(int id, String flightNumber, String origin, String destination, LocalDate departureDate) {
+    public Flight(int id, String flightNumber, String origin, String destination, LocalDate departureDate, int capacity, double price) {
         this.id = id;
         this.flightNumber = flightNumber;
         this.origin = origin;
         this.destination = destination;
         this.departureDate = departureDate;
+        this.capacity = capacity;
+        this.price = price;
         
         this.passengers = new HashSet<>();
     }
@@ -31,6 +35,10 @@ public class Flight {
     	this.passengers.remove(customer);
     }
 
+    public double getPrice() {
+    	return this.price;
+    }
+    
     public int getId() {
         return id;
     }
@@ -74,6 +82,10 @@ public class Flight {
     public List<Customer> getPassengers() {
         return new ArrayList<>(passengers);
     }
+    
+    public int getCapacity() {
+    	return this.capacity;
+    }
 	
     public String getDetailsShort() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
@@ -88,6 +100,8 @@ public class Flight {
         		+ "Origin: " + origin + "\n"
         		+ "Destination: " + destination + "\n" 
                 + "Departure Date: " + departureDate.format(dtf) + "\n"
+                + "Capacity: " + capacity + "\n"
+                + "Spaces: " + (capacity-passengers.size()) + "\n"
                 + "---------------------------" + "\n"
                 + "Passengers:\n";
         
@@ -110,6 +124,10 @@ public class Flight {
     }
     
     public void addPassenger(Customer passenger) {
-        this.passengers.add(passenger);
+    	if(this.passengers.size() < this.capacity) {
+    		this.passengers.add(passenger);
+    	}else {
+    		System.out.println("Could not add passenger: flight is at capacity");
+    	}
     }
 }
