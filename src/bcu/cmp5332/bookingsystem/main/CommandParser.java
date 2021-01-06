@@ -36,7 +36,9 @@ public class CommandParser {
 
 				LocalDate departureDate = parseDateWithAttempts(br);
 				return new AddFlight(flighNumber, origin, destination, departureDate);
+				
 			} else if (cmd.equals("addcustomer")) {
+				
 				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 				System.out.print("Full name: ");
 				String name = br.readLine();
@@ -44,9 +46,13 @@ public class CommandParser {
 				String phone = br.readLine();
 				
 				return new AddCustomer(name, phone);
+				
 			} else if (cmd.equals("loadgui")) {
+				
 				return new LoadGUI();
+				
 			} else if (parts.length == 1) {
+				
 				if (line.equals("listflights")) {
 					return new ListFlights();
 				} else if (line.equals("listcustomers")) {
@@ -54,26 +60,32 @@ public class CommandParser {
 				} else if (line.equals("help")) {
 					return new Help();
 				}
+				
 			} else if (parts.length == 2) {
+				
 				int id = Integer.parseInt(parts[1]);
-
 				if (cmd.equals("showflight")) {					
 					return new ShowFlight(id);
 				} else if (cmd.equals("showcustomer")) {
 					return new ShowCustomer(id);
 				}
+				
 			} else if (parts.length == 3) {
+				
 				int patronID = Integer.parseInt(parts[1]);
 				int bookID = Integer.parseInt(parts[2]);
 				if (cmd.equals("addbooking")) {
 					return new AddBooking(patronID, bookID);
 				} else if (cmd.equals("editbooking")) {
-
+					int customerID = Integer.parseInt(parts[1]);
+					int flightID = Integer.parseInt(parts[2]);
+					return new CancelBooking(customerID, flightID);
 				} else if (cmd.equals("cancelbooking")) {
 					int customerID = Integer.parseInt(parts[1]);
 					int flightID = Integer.parseInt(parts[2]);
 					return new CancelBooking(customerID, flightID);
 				}
+				
 			}
 		} catch (NumberFormatException ex) {
 

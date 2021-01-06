@@ -3,6 +3,8 @@ package bcu.cmp5332.bookingsystem.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
+
 public class Customer {
     
     private int id;
@@ -43,7 +45,7 @@ public class Customer {
 				+ " - " +  booking.getFlight().getFlightNumber()
 				+ " - " + booking.getFlight().getOrigin()
 				+ " to " + booking.getFlight().getDestination()
-				+ " on " + booking.getFlight().getDepartureDate()
+				+ " on " + booking.getFlight().getDepartureDate() + "\n"
 			);
     	}
     	
@@ -55,17 +57,24 @@ public class Customer {
     
     
     
-    public void addBooking(Booking booking) {
-    	this.bookings.add(booking);
+    public void addBooking(Booking booking) throws FlightBookingSystemException {
+    	if(this.bookings.contains(booking)) {
+    		throw new FlightBookingSystemException("This booking already exists for this customer.");
+    	}else {
+    		this.bookings.add(booking);
+    	}
     }
     
-    public void removeBooking(int id) {
+    public void cancelBookingForFlight(Flight flight) throws FlightBookingSystemException {
     	int i = 0;
     	for(Booking booking : bookings) {
-    		if(booking.getCustomer().getId() == id) break;
+    		if(booking.getFlight() == flight) {
+    			this.bookings.remove(i);
+    			return;
+    		}
     		i++;
     	}
-		this.bookings.remove(i);
+		throw new FlightBookingSystemException("This booking does not exist for this customer.");
     }
     
 }
