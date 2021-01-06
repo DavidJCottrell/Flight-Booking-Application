@@ -100,12 +100,12 @@ public class Flight {
         		+ "Origin: " + origin + "\n"
         		+ "Destination: " + destination + "\n" 
                 + "Departure Date: " + departureDate.format(dtf) + "\n"
+                + "Price: £" + price + "\n"
                 + "Capacity: " + capacity + "\n"
                 + "Spaces: " + (capacity-passengers.size()) + "\n"
                 + "---------------------------" + "\n"
                 + "Passengers:\n";
         
-    	
     	if(passengers.size() == 0) {
     		infoStr = infoStr.concat("* No passengers.");
     	}else {

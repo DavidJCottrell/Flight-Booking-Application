@@ -1,5 +1,8 @@
 package bcu.cmp5332.bookingsystem.commands;
 
+import java.io.IOException;
+
+import bcu.cmp5332.bookingsystem.data.FlightBookingSystemData;
 import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
 import bcu.cmp5332.bookingsystem.model.Booking;
 import bcu.cmp5332.bookingsystem.model.Customer;
@@ -33,7 +36,18 @@ public class CancelBooking implements Command{
 		//Remove booking from system
 		flightBookingSystem.removeBooking(booking);
 		
-		System.out.println("Booking has been successfully cancelled");
-		
+        try {
+			
+        	FlightBookingSystemData.storeBookings(flightBookingSystem);
+			System.out.println("Booking has been successfully cancelled");
+			
+		} catch (IOException e) {
+			
+			customer.addBooking(booking);
+			flight.addPassenger(customer);
+			flightBookingSystem.addBooking(booking);
+			System.out.println("Couldn't store data");
+			
+		}
 	}
 }

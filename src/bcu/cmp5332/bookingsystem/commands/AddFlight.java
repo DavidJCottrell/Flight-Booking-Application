@@ -1,8 +1,11 @@
 package bcu.cmp5332.bookingsystem.commands;
 
+import bcu.cmp5332.bookingsystem.data.FlightBookingSystemData;
 import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
 import bcu.cmp5332.bookingsystem.model.Flight;
 import bcu.cmp5332.bookingsystem.model.FlightBookingSystem;
+
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class AddFlight implements  Command {
@@ -33,6 +36,19 @@ public class AddFlight implements  Command {
         
         Flight flight = new Flight(++maxId, flightNumber, origin, destination, departureDate, capacity, price);
         flightBookingSystem.addFlight(flight);
-        System.out.println("Flight #" + flight.getId() + " added.");
+        
+        try {
+        	
+			FlightBookingSystemData.storeFlights(flightBookingSystem);
+			System.out.println("Flight #" + flight.getId() + " added.");
+			
+		} catch (IOException e) {
+			
+			System.out.println(e.toString());
+			flightBookingSystem.removeFlight(flight);
+			System.out.println("Error storing data to file. Flight not added.");
+			
+		}
+        
     }
 }

@@ -24,6 +24,7 @@ public class Customer {
     public String getName() { return this.name; }
     public String getPhone() { return this.phone; }
     public String getEmail() { return this.email; }
+    public List<Booking> getBookings(){ return this.bookings; }
     
     public void setId(int id) { this.id = id; }
     public void setName(String name) { this.name = name; }

@@ -1,10 +1,16 @@
 package bcu.cmp5332.bookingsystem.gui;
 
 import bcu.cmp5332.bookingsystem.data.FlightBookingSystemData;
+import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
+import bcu.cmp5332.bookingsystem.model.Customer;
 import bcu.cmp5332.bookingsystem.model.Flight;
 import bcu.cmp5332.bookingsystem.model.FlightBookingSystem;
+
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -166,16 +172,18 @@ public class MainWindow extends JFrame implements ActionListener {
             
             
         } else if (ae.getSource() == custView) {
-            
+        	displayCustomers();
             
         } else if (ae.getSource() == custAdd) {
-            
+        	new AddCustomerWindow(this);
             
         } else if (ae.getSource() == custDel) {
             
             
         }
     }
+    
+
 
     public void displayFlights() {
         List<Flight> flightsList = fbs.getFlights();
@@ -185,15 +193,89 @@ public class MainWindow extends JFrame implements ActionListener {
         Object[][] data = new Object[flightsList.size()][6];
         for (int i = 0; i < flightsList.size(); i++) {
             Flight flight = flightsList.get(i);
-            data[i][0] = flight.getFlightNumber();
-            data[i][1] = flight.getOrigin();
-            data[i][2] = flight.getDestination();
-            data[i][3] = flight.getDepartureDate();
+            data[i][0] = flight.getId();
+            data[i][1] = flight.getFlightNumber();
+            data[i][2] = flight.getOrigin();
+            data[i][3] = flight.getDestination();
+            data[i][4] = flight.getDepartureDate();
         }
 
         JTable table = new JTable(data, columns);
+        table.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent mouseEvent) {
+                JTable table =(JTable) mouseEvent.getSource();
+                Point point = mouseEvent.getPoint();
+                int row = table.rowAtPoint(point);
+                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                	flightInfoWindow((int) data[row][0]); //Display flights passenger info
+                }
+            }
+        });
         this.getContentPane().removeAll();
         this.getContentPane().add(new JScrollPane(table));
         this.revalidate();
     }	
+    
+    
+    public void displayCustomers() {
+        List<Customer> customersList = fbs.getCustomers();
+        // headers for the table
+        String[] columns = new String[]{"Customer No", "Name", "Phone", "Email", "No. of bookings"};
+
+        Object[][] data = new Object[customersList.size()][6];
+        
+        for (int i = 0; i < customersList.size(); i++) {
+            Customer customer = customersList.get(i);
+            data[i][0] = customer.getId();
+            data[i][1] = customer.getName();
+            data[i][2] = customer.getPhone();
+            data[i][3] = customer.getEmail();
+            data[i][4] = customer.getBookings().size();
+        }
+
+        JTable table = new JTable(data, columns);
+        table.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent mouseEvent) {
+                JTable table =(JTable) mouseEvent.getSource();
+                Point point = mouseEvent.getPoint();
+                int row = table.rowAtPoint(point);
+                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                	bookingInfoWindow((int) data[row][0]); //Display customer's booking info
+                }
+            }
+        });
+        
+        this.getContentPane().removeAll();
+        this.getContentPane().add(new JScrollPane(table));
+        this.revalidate();
+    }
+    
+    
+    private void bookingInfoWindow(int customerId) {
+    	Customer customer = null;
+		try {
+			customer = fbs.getCustomerByID(customerId);
+		} catch (FlightBookingSystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	JOptionPane.showMessageDialog(null, customer.getDetailsLong(), "Customer Information", JOptionPane.WARNING_MESSAGE);
+    }
+    
+    
+    private void flightInfoWindow(int flightId) {
+    	Flight flight = null;
+		try {
+			flight = fbs.getFlightByID(flightId);
+		} catch (FlightBookingSystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	JOptionPane.showMessageDialog(null, flight.getDetailsLong(), "Flight Information", JOptionPane.WARNING_MESSAGE);
+    }
+    
+    
+    
 }

@@ -30,7 +30,14 @@ public class Main {
 				System.out.println(ex.getMessage());
 			}
 		}
-		FlightBookingSystemData.store(fbs);
+		
+		try {
+			FlightBookingSystemData.store(fbs);
+		}catch(IOException e) {
+			System.out.println("Error storing data.");
+		}
+		
+		
 		System.exit(0);
 	}
 }

@@ -15,9 +15,6 @@ public class FlightBookingSystemData {
     // runs only once when the object gets loaded to memory
     static {
         dataManagers.add(new FlightDataManager());
-        
-        /* Uncomment the two lines below when the implementation of their 
-        loadData() and storeData() methods is complete */
         dataManagers.add(new CustomerDataManager());
         dataManagers.add(new BookingDataManager());
     }
@@ -32,10 +29,21 @@ public class FlightBookingSystemData {
     }
 
     public static void store(FlightBookingSystem fbs) throws IOException {
-
         for (DataManager dm : dataManagers) {
             dm.storeData(fbs);
         }
     }
+    
+    public static void storeFlights(FlightBookingSystem fbs) throws IOException {
+    	dataManagers.get(0).storeData(fbs);
+    }
+    
+	public static void storeCustomers(FlightBookingSystem fbs) throws IOException {
+		dataManagers.get(1).storeData(fbs);
+	}
+
+	public static void storeBookings(FlightBookingSystem fbs) throws IOException {
+		dataManagers.get(2).storeData(fbs);
+	}
     
 }
