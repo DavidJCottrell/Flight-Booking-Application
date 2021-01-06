@@ -81,8 +81,8 @@ public class FlightBookingSystem {
     }
 
     
-//    public void removeBooking(Booking booking) {
-//    	
-//    }
+    public void removeBooking(Booking booking) {
+    	bookings.remove(booking.getId()); //Probably needs some error checking
+    }
     
 }

@@ -1,6 +1,7 @@
 package bcu.cmp5332.bookingsystem.commands;
 
 import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
+import bcu.cmp5332.bookingsystem.model.Booking;
 import bcu.cmp5332.bookingsystem.model.Customer;
 import bcu.cmp5332.bookingsystem.model.Flight;
 import bcu.cmp5332.bookingsystem.model.FlightBookingSystem;
@@ -18,9 +19,10 @@ public class CancelBooking implements Command{
 	@Override
 	public void execute(FlightBookingSystem flightBookingSystem) throws FlightBookingSystemException {
 		
-		//Find relevant customer and flight objects
+		//Find relevant customer, flight and booking objects
 		Customer customer = flightBookingSystem.getCustomerByID(this.customerId);
 		Flight flight = flightBookingSystem.getFlightByID(this.flightId);
+		Booking booking = customer.getBookingByFlight(flight);
 		
 		//Remove booking from customer
 		customer.cancelBookingForFlight(flight);
@@ -29,7 +31,7 @@ public class CancelBooking implements Command{
 		flight.removePassenger(customer);
 		
 		//Remove booking from system
-		//flightBookingSystem.removeBooking(booking);
+		flightBookingSystem.removeBooking(booking);
 		
 		
 		System.out.println("Booking has been successfully cancelled");

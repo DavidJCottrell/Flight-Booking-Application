@@ -30,6 +30,13 @@ public class Customer {
     	return "Customer ID - " + this.id + " Name - " + this.name + " Phone - " + this.phone;
     }
     
+    public Booking getBookingByFlight(Flight flight) throws FlightBookingSystemException {
+    	for(Booking booking : bookings) {
+    		if(booking.getFlight() == flight) return booking;
+    	}
+    	throw new FlightBookingSystemException("Error: booking for flight not found.");
+    }
+    
     public String getDetailsLong() {
     	
     	String infoStr = "Customer #" + id + "\n" 
