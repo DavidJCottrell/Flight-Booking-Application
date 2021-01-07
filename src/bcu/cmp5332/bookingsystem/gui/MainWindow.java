@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -163,7 +164,7 @@ public class MainWindow extends JFrame implements ActionListener {
             new AddFlightWindow(this);
             
         } else if (ae.getSource() == flightsDel) {
-            
+        	new DeleteFlight(this);   
             
         } else if (ae.getSource() == bookingsIssue) {
             
@@ -178,8 +179,7 @@ public class MainWindow extends JFrame implements ActionListener {
         	new AddCustomerWindow(this);
             
         } else if (ae.getSource() == custDel) {
-            
-            
+        	new DeleteCustomer(this);   
         }
     }
     
@@ -187,12 +187,16 @@ public class MainWindow extends JFrame implements ActionListener {
 
     public void displayFlights() {
         List<Flight> flightsList = fbs.getFlights();
+        List<Flight> visableFlightsList = new ArrayList<>(); //Prevents gaps from showing in table
+        
+        for(Flight flight : flightsList) if(!flight.isHidden()) visableFlightsList.add(flight);
+        
         // headers for the table
         String[] columns = new String[]{"Flight No", "Origin", "Destination", "Departure Date"};
 
-        Object[][] data = new Object[flightsList.size()][6];
-        for (int i = 0; i < flightsList.size(); i++) {
-            Flight flight = flightsList.get(i);
+        Object[][] data = new Object[visableFlightsList.size()][6];
+        for (int i = 0; i < visableFlightsList.size(); i++) {
+            Flight flight = visableFlightsList.get(i);
             data[i][0] = flight.getId();
             data[i][1] = flight.getFlightNumber();
             data[i][2] = flight.getOrigin();
@@ -219,18 +223,22 @@ public class MainWindow extends JFrame implements ActionListener {
     
     public void displayCustomers() {
         List<Customer> customersList = fbs.getCustomers();
+        List<Customer> visableCustomersList = new ArrayList<>(); //Prevents gaps from showing in table
+        
+        for(Customer customer : customersList) if(!customer.isHidden()) visableCustomersList.add(customer);
+
         // headers for the table
         String[] columns = new String[]{"Customer No", "Name", "Phone", "Email", "No. of bookings"};
 
-        Object[][] data = new Object[customersList.size()][6];
+        Object[][] data = new Object[visableCustomersList.size()][6];
         
-        for (int i = 0; i < customersList.size(); i++) {
-            Customer customer = customersList.get(i);
+        for (int i = 0; i < visableCustomersList.size(); i++) {
+            Customer customer = visableCustomersList.get(i);
             data[i][0] = customer.getId();
             data[i][1] = customer.getName();
             data[i][2] = customer.getPhone();
             data[i][3] = customer.getEmail();
-            data[i][4] = customer.getBookings().size();
+            data[i][4] = customer.getBookings().size();	
         }
 
         JTable table = new JTable(data, columns);

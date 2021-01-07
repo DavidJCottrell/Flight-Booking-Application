@@ -16,8 +16,16 @@ public class HideCustomer implements  Command {
 	public void execute(FlightBookingSystem flightBookingSystem) throws FlightBookingSystemException {
 		
 		Customer customer = flightBookingSystem.getCustomerByID(this.customerId);
-		customer.setHidden(true);
-		System.out.println("Customer removed.");
+		
+		if(!customer.isHidden()) {
+			customer.setHidden(true);
+			System.out.println("Customer removed.");
+		}else {
+			System.out.println("Customer has already been removed.");
+		}
+		
+		
+		
 		
 	}
 

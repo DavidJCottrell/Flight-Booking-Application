@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"bcu.cmp5332.bookingsystem.commands","l":"HideFlight"}]

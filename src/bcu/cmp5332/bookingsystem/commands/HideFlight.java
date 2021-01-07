@@ -16,9 +16,13 @@ public class HideFlight implements  Command {
 	public void execute(FlightBookingSystem flightBookingSystem) throws FlightBookingSystemException {
 		
 		Flight flight = flightBookingSystem.getFlightByID(this.flightId);
-		flight.setHidden(true);
-		System.out.println("Flight removed.");
 		
+		if(!flight.isHidden()) {
+			flight.setHidden(true);
+			System.out.println("Flight removed.");
+		}else {
+			System.out.println("Flight has already been removed.");
+		}
 	}
 
 }
