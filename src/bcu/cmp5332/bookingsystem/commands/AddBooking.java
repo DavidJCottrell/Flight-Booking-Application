@@ -32,24 +32,33 @@ public class AddBooking implements Command{
         }
 		
 		Booking booking = new Booking(++maxId, customer, flight, flightBookingSystem.getSystemDate());
-		
-		customer.addBooking(booking);
-		flight.addPassenger(customer);
-		flightBookingSystem.addBooking(booking);
-		
-        try {
-        	
-			FlightBookingSystemData.storeBookings(flightBookingSystem);
-			System.out.println(customer.getName() + " has been successfully added to flight #" + flight.getFlightNumber());
+
+
+		try {
+			customer.addBooking(booking);
+			flight.addPassenger(customer);
+			flightBookingSystem.addBooking(booking);
 			
-		} catch (IOException e) {
+			//Store new data to file
+	        try {
+	        	
+				FlightBookingSystemData.storeBookings(flightBookingSystem);
+				System.out.println(customer.getName() + " has been successfully added to flight #" + flight.getFlightNumber());
+				
+			} catch (IOException e) {
+				
+				customer.cancelBookingForFlight(flight);
+				flight.removePassenger(customer);
+				flightBookingSystem.removeBooking(booking);
+				System.out.println("Error storing data to file. Booking not created.");
+				
+			}
 			
-			customer.cancelBookingForFlight(flight);
-			flight.removePassenger(customer);
-			flightBookingSystem.removeBooking(booking);
-			System.out.println("Error storing data to file. Booking not created.");
-			
+		}catch(FlightBookingSystemException e) {
+			System.out.println(e);
 		}
+		
+		
 	}
 
 }

@@ -49,6 +49,13 @@ public class FlightBookingSystem {
         }
         return customers.get(id);
     }
+    
+    public Booking getBookingById(int id) throws FlightBookingSystemException {
+        if (!bookings.containsKey(id)) {
+            throw new FlightBookingSystemException("There is no booking with that ID.");
+        }
+        return bookings.get(id);
+    }
 
     //Add a flight to the list of flights stored in the system
     public void addFlight(Flight flight) throws FlightBookingSystemException {

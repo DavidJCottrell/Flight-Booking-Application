@@ -27,19 +27,15 @@ public class AddCustomer implements Command {
             int lastIndex = flightBookingSystem.getCustomers().size() - 1;
             maxId = flightBookingSystem.getCustomers().get(lastIndex).getId();
         }
-        Customer customer = new Customer(++maxId, name, phone, email);
+        Customer customer = new Customer(++maxId, name, phone, email, false);
         flightBookingSystem.addCustomer(customer);
         
         try {
-        	
         	FlightBookingSystemData.storeCustomers(flightBookingSystem);
         	System.out.println("Customer #" + customer.getId() + " added.");
-        	
 		} catch (IOException e) {
-			
 			flightBookingSystem.removeCustomer(customer);
 			System.out.println("Error storing data to file. Customer not added");
-			
 		}
     }
 }

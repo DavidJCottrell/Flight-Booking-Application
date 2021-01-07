@@ -10,6 +10,8 @@ public interface Command {
         + "\tlistcustomers                             print all customers\n"
         + "\taddflight                                 add a new flight\n"
         + "\taddcustomer                               add a new customer\n"
+        + "\tremoveflight [flight id]                  add a new flight\n"
+        + "\tremovecustomer [customer id]              add a new customer\n"
         + "\tshowflight [flight id]                    show flight details\n"
         + "\tshowcustomer [customer id]                show customer details\n"
         + "\taddbooking [customer id] [flight id]      add a new booking\n"
@@ -19,7 +21,6 @@ public interface Command {
         + "\thelp                                      prints this help message\n"
         + "\texit                                      exits the program";
 
-    
     public void execute(FlightBookingSystem flightBookingSystem) throws FlightBookingSystemException;
     
 }

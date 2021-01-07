@@ -28,7 +28,7 @@ public class CustomerDataManager implements DataManager {
                     String phone = properties[2];
                     String email = properties[3];
                     
-                    Customer customer = new Customer(id, name, phone, email);
+                    Customer customer = new Customer(id, name, phone, email, false);
                     
                     fbs.addCustomer(customer);
                 } catch (NumberFormatException ex) {

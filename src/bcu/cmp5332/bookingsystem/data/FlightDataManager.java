@@ -30,7 +30,7 @@ public class FlightDataManager implements DataManager {
                     int capacity = Integer.parseInt(properties[5]);
                     double price = Double.parseDouble(properties[6]);
                     
-                    Flight flight = new Flight(id, flightNumber, origin, destination, departureDate, capacity, price);
+                    Flight flight = new Flight(id, flightNumber, origin, destination, departureDate, capacity, price, false);
                     fbs.addFlight(flight);
                 } catch (NumberFormatException ex) {
                     throw new FlightBookingSystemException("Unable to parse book id " + properties[0] + " on line " + line_idx

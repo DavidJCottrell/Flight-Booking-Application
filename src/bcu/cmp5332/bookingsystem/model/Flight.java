@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
+
 public class Flight {
     
     private int id;
@@ -16,10 +18,11 @@ public class Flight {
     private LocalDate departureDate;
     private int capacity;
     private double price;
+    private boolean hidden;
 
     private Set<Customer> passengers;
 
-    public Flight(int id, String flightNumber, String origin, String destination, LocalDate departureDate, int capacity, double price) {
+    public Flight(int id, String flightNumber, String origin, String destination, LocalDate departureDate, int capacity, double price, boolean hidden) {
         this.id = id;
         this.flightNumber = flightNumber;
         this.origin = origin;
@@ -27,6 +30,7 @@ public class Flight {
         this.departureDate = departureDate;
         this.capacity = capacity;
         this.price = price;
+        this.hidden = hidden;
         
         this.passengers = new HashSet<>();
     }
@@ -86,6 +90,14 @@ public class Flight {
     public int getCapacity() {
     	return this.capacity;
     }
+    
+    public boolean isHidden() {
+    	return this.hidden;
+    }
+    
+    public void setHidden(boolean hidden) {
+    	this.hidden = hidden;
+    }
 	
     public String getDetailsShort() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
@@ -123,11 +135,14 @@ public class Flight {
         
     }
     
-    public void addPassenger(Customer passenger) {
-    	if(this.passengers.size() < this.capacity) {
-    		this.passengers.add(passenger);
-    	}else {
-    		System.out.println("Could not add passenger: flight is at capacity");
+    public void addPassenger(Customer passenger) throws FlightBookingSystemException {
+    	for(Customer tempCustomer : this.passengers) 
+    		if(tempCustomer.getId() == passenger.getId()) 
+    			throw new FlightBookingSystemException("This passenger is already booked for this flight.");
+    	
+    	if(this.passengers.size() >= this.capacity) {
+    		throw new FlightBookingSystemException("This flight is at capacity.");	
     	}
+    	this.passengers.add(passenger);
     }
 }

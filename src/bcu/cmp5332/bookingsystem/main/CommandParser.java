@@ -9,7 +9,10 @@ import bcu.cmp5332.bookingsystem.commands.AddCustomer;
 import bcu.cmp5332.bookingsystem.commands.AddFlight;
 import bcu.cmp5332.bookingsystem.commands.CancelBooking;
 import bcu.cmp5332.bookingsystem.commands.Command;
+import bcu.cmp5332.bookingsystem.commands.EditBooking;
 import bcu.cmp5332.bookingsystem.commands.Help;
+import bcu.cmp5332.bookingsystem.commands.HideCustomer;
+import bcu.cmp5332.bookingsystem.commands.HideFlight;
 import bcu.cmp5332.bookingsystem.commands.ListCustomers;
 
 import java.io.BufferedReader;
@@ -80,22 +83,33 @@ public class CommandParser {
 					return new ShowFlight(id);
 				} else if (cmd.equals("showcustomer")) {
 					return new ShowCustomer(id);
+				} else if (cmd.equals("removecustomer")) {
+					return new HideCustomer(id);
+				} else if (cmd.equals("removeflight")) {
+					return new HideFlight(id);
 				}
 				
 			} else if (parts.length == 3) {
 				
-				int patronID = Integer.parseInt(parts[1]);
-				int bookID = Integer.parseInt(parts[2]);
+				
 				if (cmd.equals("addbooking")) {
-					return new AddBooking(patronID, bookID);
+					
+					int customerId = Integer.parseInt(parts[1]);
+					int flightID = Integer.parseInt(parts[2]);
+					return new AddBooking(customerId, flightID);
+					
 				} else if (cmd.equals("editbooking")) {
-					int customerID = Integer.parseInt(parts[1]);
+					
+					int bookingId = Integer.parseInt(parts[1]);
 					int flightID = Integer.parseInt(parts[2]);
-					return new CancelBooking(customerID, flightID);
+					return new EditBooking(bookingId, flightID);
+					
 				} else if (cmd.equals("cancelbooking")) {
+					
 					int customerID = Integer.parseInt(parts[1]);
 					int flightID = Integer.parseInt(parts[2]);
 					return new CancelBooking(customerID, flightID);
+					
 				}
 				
 			}

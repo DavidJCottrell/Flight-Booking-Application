@@ -11,10 +11,14 @@ public class ListCustomers implements Command{
 	@Override
 	public void execute(FlightBookingSystem flightBookingSystem) throws FlightBookingSystemException {
 		List<Customer> customers = flightBookingSystem.getCustomers();
-        for (Customer customer : customers) {
-            System.out.println(customer.getDetailsShort());
+        int i = 0;
+		for (Customer customer : customers) {
+        	if(!customer.isHidden()) {
+        		System.out.println(customer.getDetailsShort());
+        		i++;
+        	}
         }
-        System.out.println(customers.size() + " customer(s)");
+        System.out.println("Showing " + i + " out of " + customers.size() + " customers");
 		
 	}
 

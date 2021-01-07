@@ -12,12 +12,14 @@ public class Customer {
     private String phone;
     private List<Booking> bookings = new ArrayList<>();
     private String email;
+    private boolean hidden;
     
-    public Customer(int id, String name, String phone, String email){
+    public Customer(int id, String name, String phone, String email, boolean hidden){
     	this.id = id;
     	this.name = name;
     	this.phone = phone;
     	this.email = email;
+    	this.hidden = hidden;
     }
     
     public int getId() { return this.id; }
@@ -25,10 +27,15 @@ public class Customer {
     public String getPhone() { return this.phone; }
     public String getEmail() { return this.email; }
     public List<Booking> getBookings(){ return this.bookings; }
+    public boolean isHidden() { return this.hidden; }
     
     public void setId(int id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setPhone(String phone) { this.phone = phone; }
+    
+    public void setHidden(boolean hidden) {
+    	this.hidden = hidden;
+    }
     
     public String getDetailsShort() {
     	return "* Customer ID - " + this.id + " Name - " + this.name + " Phone - " + this.phone + " Email - " + this.email;
@@ -52,7 +59,8 @@ public class Customer {
     	
     	for(Booking booking : this.bookings) {
     		infoStr = infoStr.concat(
-	    		"* Booking date: " + booking.getBookingDate() 
+    			"* Booking ID: " + booking.getId() 
+	    		+ " date: " + booking.getBookingDate() 
 				+ " for Flight #" + booking.getFlight().getId()
 				+ " - " +  booking.getFlight().getFlightNumber()
 				+ " - " + booking.getFlight().getOrigin()
@@ -70,11 +78,31 @@ public class Customer {
     
     
     public void addBooking(Booking booking) throws FlightBookingSystemException {
-    	if(this.bookings.contains(booking)) {
-    		throw new FlightBookingSystemException("This booking already exists for this customer.");
-    	}else {
-    		this.bookings.add(booking);
+    	
+    	//Check if booking for flight already exists for customer
+    	for(Booking tempBooking : this.bookings) {
+        	if(booking.getFlight().getId() == tempBooking.getFlight().getId()) {
+        		throw new FlightBookingSystemException("This booking already exists for this customer.");
+        	}
     	}
+    	
+    	this.bookings.add(booking); 
+
+    	
+    	
+    	
+//    	boolean exists = false;
+//    	
+//    	for(Booking tempBooking : this.bookings) 
+//    		if(tempBooking.getId() == booking.getId()) {
+//    			exists = true;
+//    			throw new FlightBookingSystemException("This booking already exists for this customer.");
+//    		}
+//    	if(!exists) {
+//    		System.out.println("ADDING");
+//    		this.bookings.add(booking); 
+//    	}
+    		
     }
     
     public void cancelBookingForFlight(Flight flight) throws FlightBookingSystemException {
