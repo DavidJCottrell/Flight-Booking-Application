@@ -100,7 +100,7 @@ public class MainWindow extends JFrame implements ActionListener {
         
         // adding Bookings menu and menu items
         bookingsMenu = new JMenu("Bookings");
-        
+        menuBar.add(bookingsMenu);
         bookingsIssue = new JMenuItem("Issue");
         bookingsUpdate = new JMenuItem("Update");
         bookingsCancel = new JMenuItem("Cancel");
@@ -134,8 +134,8 @@ public class MainWindow extends JFrame implements ActionListener {
         setAutoRequestFocus(true);
         toFront();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-/* Uncomment the following line to not terminate the console app when the window is closed */
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);        
+        /* Uncomment the following line to not terminate the console app when the window is closed */
+        //setDefaultCloseOperation(DISPOSE_ON_CLOSE);        
 
     }	
 
@@ -159,7 +159,7 @@ public class MainWindow extends JFrame implements ActionListener {
             System.exit(0);
         } else if (ae.getSource() == flightsView) {
             displayFlights();
-            
+
         } else if (ae.getSource() == flightsAdd) {
             new AddFlightWindow(this);
             
@@ -167,10 +167,13 @@ public class MainWindow extends JFrame implements ActionListener {
         	new DeleteFlight(this);   
             
         } else if (ae.getSource() == bookingsIssue) {
+        	new AddBookingWindow(this); 
             
+        } else if (ae.getSource() == bookingsUpdate) {
+        	new EditBookingWindow(this); 
             
         } else if (ae.getSource() == bookingsCancel) {
-            
+            new CancelBookingWindow(this);
             
         } else if (ae.getSource() == custView) {
         	displayCustomers();

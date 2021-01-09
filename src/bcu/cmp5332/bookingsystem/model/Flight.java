@@ -2,6 +2,7 @@ package bcu.cmp5332.bookingsystem.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,12 +18,18 @@ public class Flight {
     private String destination;
     private LocalDate departureDate;
     private int capacity;
-    private double price;
     private boolean hidden;
+    
+    private LocalDate currentDate;
+    
+    private double price;
+    private double capacityCharge;
+    private double dateCharge;
+    private double totalPrice; 
 
     private Set<Customer> passengers;
 
-    public Flight(int id, String flightNumber, String origin, String destination, LocalDate departureDate, int capacity, double price, boolean hidden) {
+    public Flight(int id, String flightNumber, String origin, String destination, LocalDate departureDate, int capacity, double price, boolean hidden, LocalDate currentDate) {
         this.id = id;
         this.flightNumber = flightNumber;
         this.origin = origin;
@@ -31,16 +38,45 @@ public class Flight {
         this.capacity = capacity;
         this.price = price;
         this.hidden = hidden;
-        
         this.passengers = new HashSet<>();
+        this.currentDate = currentDate;
+
+    }
+    
+    public void calculateAdditionalCharges() {
+    	
+    	long daysLeft = ChronoUnit.DAYS.between(currentDate, departureDate);
+    	
+    	dateCharge = (100/daysLeft)*3; //Increase charge as the current system date approaches departure date.
+
+    	capacityCharge = ((double)this.passengers.size()/(double)this.capacity)*100; //Increase charge as percentage of number of seats left
+    	
+    	totalPrice = Math.round((price + dateCharge + capacityCharge)*100.0)/100.0;
+    	
+    }
+    
+    public double getDateCharge() {
+    	return dateCharge;
+    }
+    
+    public double getCapacityCharge() {
+    	return capacityCharge;
     }
     
     public void removePassenger(Customer customer) {
     	this.passengers.remove(customer);
     }
+    
+    public boolean hasDeparted(LocalDate sysDate) {
+    	return sysDate.isAfter(departureDate);
+    }
 
     public double getPrice() {
     	return this.price;
+    }
+    
+    public double getTotalPrice() {
+    	return this.totalPrice;
     }
     
     public int getId() {
@@ -101,8 +137,15 @@ public class Flight {
 	
     public String getDetailsShort() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-        return "Flight #" + id + " - " + flightNumber + " - " + origin + " to " 
-                + destination + " on " + departureDate.format(dtf);
+        return "Flight ID: " + id + "\n - #" + flightNumber 
+        		+ "\n - " + origin + " to " 
+        		+ destination + "\n - Departure date: " 
+        		+ departureDate.format(dtf) 
+        		+ "\n - Price:\n"
+        		+ "\t - Low capacity charge: £" + capacityCharge + "\n"
+        		+ "\t - Late booking charge: £" + dateCharge + "\n"
+        		+ "\t - Price of flight: £" + price + "\n"
+        		+ "\t - Total: £" + totalPrice;
     }
 
     public String getDetailsLong() {

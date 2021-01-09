@@ -25,13 +25,17 @@ public class AddBooking implements Command{
 		Customer customer = flightBookingSystem.getCustomerByID(this.customerId);
 		Flight flight = flightBookingSystem.getFlightByID(this.flightId);
 		
+		if(flight.hasDeparted(flightBookingSystem.getSystemDate())) {
+			throw new FlightBookingSystemException("Flight has already departed, please select an available flight");
+		}
+		
         int maxId = 0;
         if (flightBookingSystem.getBookings().size() > 0) {
             int lastIndex = flightBookingSystem.getBookings().size() - 1;
             maxId = flightBookingSystem.getBookings().get(lastIndex).getId();
         }
 		
-		Booking booking = new Booking(++maxId, customer, flight, flightBookingSystem.getSystemDate());
+		Booking booking = new Booking(++maxId, customer, flight, flightBookingSystem.getSystemDate(), flight.getTotalPrice());
 
 
 		try {

@@ -6,7 +6,7 @@ import java.util.*;
 
 public class FlightBookingSystem {
     
-    private final LocalDate systemDate = LocalDate.parse("2021-03-01");
+    private final LocalDate systemDate = LocalDate.parse("2021-03-27");
     
     private final Map<Integer, Customer> customers = new TreeMap<>();
     private final Map<Integer, Flight> flights = new TreeMap<>();
@@ -101,9 +101,6 @@ public class FlightBookingSystem {
     public void removeFlight(Flight flight) {
     	flights.remove(flight.getId());
     }
-    
-    
-    
     
     
 }

@@ -3,6 +3,7 @@ package bcu.cmp5332.bookingsystem.data;
 
 
 import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
+import bcu.cmp5332.bookingsystem.model.Flight;
 import bcu.cmp5332.bookingsystem.model.FlightBookingSystem;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +25,9 @@ public class FlightBookingSystemData {
         FlightBookingSystem fbs = new FlightBookingSystem();
         for (DataManager dm : dataManagers) {
             dm.loadData(fbs);
+        }
+        for (Flight flight : fbs.getFlights()) {
+        	flight.calculateAdditionalCharges(); // All additional charges can be calculated after bookings have been loaded
         }
         return fbs;
     }

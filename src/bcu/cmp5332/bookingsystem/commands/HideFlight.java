@@ -4,6 +4,15 @@ import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
 import bcu.cmp5332.bookingsystem.model.Flight;
 import bcu.cmp5332.bookingsystem.model.FlightBookingSystem;
 
+
+/**
+ * Hides/removes a flight from the system.
+ * 
+ * <p>Changes the "hidden" property to true, does not delete the flight from the system.
+ * 
+ * @see Command
+ * 
+ */
 public class HideFlight implements  Command {
 	
 	private final int flightId;

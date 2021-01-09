@@ -18,29 +18,44 @@ public class EditBooking implements Command {
 		this.flightId = flightId;
 	}
 	
+	//8.75 + 55.99 = 64.74
+	//14 + 34.99 = 48.99
+	
 
 	@Override
 	public void execute(FlightBookingSystem flightBookingSystem) throws FlightBookingSystemException {		
 		
-		Booking booking = flightBookingSystem.getBookingById(this.bookingId);
+		Booking booking = flightBookingSystem.getBookingById(this.bookingId); // Find the booking from the provided ID
 		
-		Flight oldFlight = booking.getFlight();		
-		Flight newFlight = flightBookingSystem.getFlightByID(this.flightId);
+		Flight oldFlight = booking.getFlight(); //Find the flight this booking currently is made for
+		Flight newFlight = flightBookingSystem.getFlightByID(this.flightId); //Find the flight the user wants to change it to
 		
-		oldFlight.removePassenger(booking.getCustomer());
-		newFlight.addPassenger(booking.getCustomer());
-		
-		booking.setFlight(newFlight);
-		
-		
-        try {
-        	FlightBookingSystemData.storeBookings(flightBookingSystem);
-        	System.out.println("Changed booking with ID " + booking.getId() + " from flight ID " + oldFlight.getId() + " to flight ID " + newFlight.getId());
-		} catch (IOException e) {
-			booking.setFlight(oldFlight);
-			System.out.println("Error storing data to file. Booking not changed");
+		if(newFlight.hasDeparted(flightBookingSystem.getSystemDate())) {
+			throw new FlightBookingSystemException("Flight has already departed, please select an available flight");
 		}
-        
+		
+		//Make sure the flights are different
+		if(oldFlight.getId() == newFlight.getId()) {
+			System.out.println("This booking is already made for that flight.");
+		}else {
+			
+			oldFlight.removePassenger(booking.getCustomer()); //Remove passenger from original flight
+			newFlight.addPassenger(booking.getCustomer()); //Add passenger to new flight
+			
+			double oldCancelPrice = booking.getCancelPrice();
+			
+			booking.setFlightWithCharge(newFlight);
+			
+			//Store new booking info to file
+	        try {
+	        	FlightBookingSystemData.storeBookings(flightBookingSystem);
+	        	System.out.println("Changed booking with ID " + booking.getId() + " from flight ID " + oldFlight.getId() + " to flight ID " + newFlight.getId() + ". £" + oldCancelPrice + " was added to the new booking price.");
+			} catch (IOException e) {
+				booking.setFlight(oldFlight);
+				System.out.println("Error storing data to file. Booking not changed");
+			}
+		}
+
 	}
 
 }

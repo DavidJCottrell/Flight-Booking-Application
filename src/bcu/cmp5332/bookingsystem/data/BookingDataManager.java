@@ -32,16 +32,16 @@ public class BookingDataManager implements DataManager {
                     int customerId = Integer.parseInt(properties[1]);
                     int flightId = Integer.parseInt(properties[2]);
                     LocalDate bookingDate = LocalDate.parse(properties[3]);
+                    double price = Double.parseDouble(properties[4]);
                     
                     Customer customer = fbs.getCustomerByID(customerId);
                     Flight flight = fbs.getFlightByID(flightId);
                     
-                    Booking booking = new Booking(bookingId, fbs.getCustomerByID(customerId), fbs.getFlightByID(flightId), bookingDate);
+                    Booking booking = new Booking(bookingId, fbs.getCustomerByID(customerId), fbs.getFlightByID(flightId), bookingDate, price);
                     
                     
                     customer.addBooking(booking);
                     flight.addPassenger(customer);
-                    
                     
                     fbs.addBooking(booking);
                     
@@ -63,6 +63,7 @@ public class BookingDataManager implements DataManager {
                 out.print(booking.getCustomer().getId() + SEPARATOR);
                 out.print(booking.getFlight().getId() + SEPARATOR);
                 out.print(booking.getBookingDate() + SEPARATOR);
+                out.print(booking.getPrice() + SEPARATOR);
                 out.println();
             }
         }

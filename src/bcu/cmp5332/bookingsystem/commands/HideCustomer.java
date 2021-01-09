@@ -4,6 +4,15 @@ import bcu.cmp5332.bookingsystem.main.FlightBookingSystemException;
 import bcu.cmp5332.bookingsystem.model.Customer;
 import bcu.cmp5332.bookingsystem.model.FlightBookingSystem;
 
+
+/**
+ * Hides/removes a customer from the system.
+ * 
+ * <p>Changes the "hidden" property to true, does not delete the customer from the system.
+ * 
+ * @see Command
+ * 
+ */
 public class HideCustomer implements  Command {
 	
 	private final int customerId;

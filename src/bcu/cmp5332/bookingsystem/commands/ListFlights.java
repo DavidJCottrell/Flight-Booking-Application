@@ -13,7 +13,7 @@ public class ListFlights implements Command {
         List<Flight> flights = flightBookingSystem.getFlights();
         int i = 0;
         for (Flight flight : flights) {
-        	if(!flight.isHidden()) {
+        	if(!flight.isHidden() && !flight.hasDeparted(flightBookingSystem.getSystemDate())) {
         		System.out.println(flight.getDetailsShort());
         		i++;
         	}

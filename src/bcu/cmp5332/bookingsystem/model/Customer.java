@@ -60,12 +60,14 @@ public class Customer {
     	for(Booking booking : this.bookings) {
     		infoStr = infoStr.concat(
     			"* Booking ID: " + booking.getId() 
-	    		+ " date: " + booking.getBookingDate() 
-				+ " for Flight #" + booking.getFlight().getId()
-				+ " - " +  booking.getFlight().getFlightNumber()
-				+ " - " + booking.getFlight().getOrigin()
-				+ " to " + booking.getFlight().getDestination()
-				+ " on " + booking.getFlight().getDepartureDate() + "\n"
+	    		+ " \n\t- Made on: " + booking.getBookingDate() 
+				+ " \n\t- Flight ID: " + booking.getFlight().getId()
+				+ " \n\t- Flight number: " +  booking.getFlight().getFlightNumber()
+				+ " \n\t- Flight origin: " + booking.getFlight().getOrigin()
+				+ " \n\t- Flight destination: " + booking.getFlight().getDestination()
+				+ " \n\t- Flight departure: " + booking.getFlight().getDepartureDate()
+				+ " \n\t- Price £" + booking.getPrice()
+				+ " \n\t- Cancelation/Re-book price £" + booking.getCancelPrice() + "\n"
 			);
     	}
     	
@@ -87,21 +89,6 @@ public class Customer {
     	}
     	
     	this.bookings.add(booking); 
-
-    	
-    	
-    	
-//    	boolean exists = false;
-//    	
-//    	for(Booking tempBooking : this.bookings) 
-//    		if(tempBooking.getId() == booking.getId()) {
-//    			exists = true;
-//    			throw new FlightBookingSystemException("This booking already exists for this customer.");
-//    		}
-//    	if(!exists) {
-//    		System.out.println("ADDING");
-//    		this.bookings.add(booking); 
-//    	}
     		
     }
     
