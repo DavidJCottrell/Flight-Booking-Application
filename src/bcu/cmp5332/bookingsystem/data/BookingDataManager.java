@@ -13,8 +13,6 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-//BookingID::CustomerID::FlightID::BookingDate
-
 public class BookingDataManager implements DataManager {
     
     public final String RESOURCE = "./resources/data/bookings.txt";

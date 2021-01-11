@@ -18,8 +18,6 @@ public class EditBooking implements Command {
 		this.flightId = flightId;
 	}
 	
-	//8.75 + 55.99 = 64.74
-	//14 + 34.99 = 48.99
 	
 
 	@Override
